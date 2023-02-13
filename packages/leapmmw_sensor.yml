@@ -113,7 +113,7 @@ switch:
 
   - platform: template
     name: "${mmwave_prefix}mmWave Sensor${mmwave_suffix}"
-    id: mmwave_mmwave_sensor # do not change
+    id: mmwave_sensor # do not change
     entity_category: config
     optimistic: true
     turn_on_action:
