@@ -108,7 +108,7 @@ class leapmmw : public Component, public UARTDevice {
               }
           }
           id(mmwave_num_targets).publish_state(parse_number<float>(v[0]).value());
-          if (id(show_target_stats).state == 1) {
+          if (id(mmwave_show_target_stats).state == 1) {
             publishTarget(stoi(v[1]), parse_number<float>(v[2]).value(), parse_number<float>(v[4]).value());
             // zero null targets
             for(int i = parse_number<int>(v[0]).value() +1 ; i < 9; i++) publishTarget(i, 0.0, 0.0);
