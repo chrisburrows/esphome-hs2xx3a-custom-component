@@ -41,7 +41,7 @@ binary_sensor:
             binary_sensor.is_off: mmwave_presence_detection
           then:
             - sensor.template.publish:
-                id: num_targets
+                id: mmwave_num_targets
                 state: 0
             - lambda: |-
                 return clearTargets();
@@ -49,47 +49,47 @@ binary_sensor:
 sensor:      
   - platform: template
     name: "${mmwave_prefix}Target 1 Distance m${mmwave_suffix}"
-    id: target_1_distance_m # do not change
+    id: mmwave_target_1_distance_m # do not change
     internal: true
     
   - platform: template
     name: "${mmwave_prefix}Target 2 Distance m${mmwave_suffix}"
-    id: target_2_distance_m # do not change
+    id: mmwave_target_2_distance_m # do not change
     internal: true
     
   - platform: template
     name: "${mmwave_prefix}Target 3 Distance m${mmwave_suffix}"
-    id: target_3_distance_m # do not change
+    id: mmwave_target_3_distance_m # do not change
     internal: true
     
   - platform: template
     name: "${mmwave_prefix}Target 4 Distance m${mmwave_suffix}"
-    id: target_4_distance_m # do not change
+    id: mmwave_target_4_distance_m # do not change
     internal: true
     
   - platform: template
     name: "${mmwave_prefix}Target 1 SNR${mmwave_suffix}"
-    id: target_1_SNR # do not change
+    id: mmwave_target_1_SNR # do not change
     internal: true
 
   - platform: template
     name: "${mmwave_prefix}Target 2 SNR${mmwave_suffix}"
-    id: target_2_SNR # do not change
+    id: mmwave_target_2_SNR # do not change
     internal: true
     
   - platform: template
     name: "${mmwave_prefix}Target 3 SNR${mmwave_suffix}"
-    id: target_3_SNR # do not change
+    id: mmwave_target_3_SNR # do not change
     internal: true
     
   - platform: template
     name: "${mmwave_prefix}Target 4 SNR${mmwave_suffix}"
-    id: target_4_SNR # do not change
+    id: mmwave_target_4_SNR # do not change
     internal: true
 
   - platform: template
     name: "${mmwave_prefix}Num Targets${mmwave_suffix}"
-    id: num_targets # do not change
+    id: mmwave_num_targets # do not change
     accuracy_decimals: 0
 
   - platform: custom
@@ -105,7 +105,7 @@ switch:
 
   - platform: template
     name: "${mmwave_prefix}Show Target Stats${mmwave_suffix}"
-    id: show_target_stats
+    id: mmwave_show_target_stats
     optimistic: true
     internal: true
     on_turn_off:
@@ -113,7 +113,7 @@ switch:
 
   - platform: template
     name: "${mmwave_prefix}mmWave Sensor${mmwave_suffix}"
-    id: mmwave_sensor # do not change
+    id: mmwave_mmwave_sensor # do not change
     entity_category: config
     optimistic: true
     turn_on_action:
@@ -125,7 +125,7 @@ switch:
 
   - platform: template
     name: "${mmwave_prefix}LED${mmwave_suffix}"
-    id: led  # do not change
+    id: mmwave_led  # do not change
     entity_category: config
     optimistic: true
     turn_on_action:
@@ -133,48 +133,48 @@ switch:
         - if:
             condition:
               or:
-                - script.is_running: turn_on_led
-                - script.is_running: turn_off_led
-                - script.is_running: set_distance
-                - script.is_running: set_latency
-                - script.is_running: set_sensitivity
+                - script.is_running: mmwave_turn_on_led
+                - script.is_running: mmwave_turn_off_led
+                - script.is_running: mmwave_set_distance
+                - script.is_running: mmwave_set_latency
+                - script.is_running: mmwave_set_sensitivity
             then:
-              - script.wait: turn_on_led
-              - script.wait: turn_off_led
-              - script.wait: set_distance
-              - script.wait: set_latency
-              - script.wait: set_sensitivity
+              - script.wait: mmwave_turn_on_led
+              - script.wait: mmwave_turn_off_led
+              - script.wait: mmwave_set_distance
+              - script.wait: mmwave_set_latency
+              - script.wait: mmwave_set_sensitivity
               - delay: 100ms
-              - script.execute: turn_on_led
+              - script.execute: mmwave_turn_on_led
             else:
               - delay: 100ms
-              - script.execute: turn_on_led
+              - script.execute: mmwave_turn_on_led
     turn_off_action:
       then:
         - if:
             condition:
               or:
-                - script.is_running: turn_on_led
-                - script.is_running: turn_off_led
-                - script.is_running: set_distance
-                - script.is_running: set_latency
-                - script.is_running: set_sensitivity
+                - script.is_running: mmwave_turn_on_led
+                - script.is_running: mmwave_turn_off_led
+                - script.is_running: mmwave_set_distance
+                - script.is_running: mmwave_set_latency
+                - script.is_running: mmwave_set_sensitivity
             then:
-              - script.wait: turn_on_led
-              - script.wait: turn_off_led
-              - script.wait: set_distance
-              - script.wait: set_latency
-              - script.wait: set_sensitivity
+              - script.wait: mmwave_turn_on_led
+              - script.wait: mmwave_turn_off_led
+              - script.wait: mmwave_set_distance
+              - script.wait: mmwave_set_latency
+              - script.wait: mmwave_set_sensitivity
               - delay: 100ms
-              - script.execute: turn_off_led
+              - script.execute: mmwave_turn_off_led
             else:
               - delay: 100ms
-              - script.execute: turn_off_led
+              - script.execute: mmwave_turn_off_led
 
 number:
   - platform: template
     name: "${mmwave_prefix}Distance${mmwave_suffix}"
-    id: distance # do not change
+    id: mmwave_distance # do not change
     entity_category: config
     min_value: 0.15
     max_value: 9.45
@@ -187,31 +187,31 @@ number:
     set_action:
       then:
         - globals.set:
-            id: distance_global
+            id: mmwave_distance_global
             value: !lambda 'return x;'
         - if:
             condition:
               or:
-                - script.is_running: turn_on_led
-                - script.is_running: turn_off_led
-                - script.is_running: set_distance
-                - script.is_running: set_latency
-                - script.is_running: set_sensitivity
+                - script.is_running: mmwave_turn_on_led
+                - script.is_running: mmwave_turn_off_led
+                - script.is_running: mmwave_set_distance
+                - script.is_running: mmwave_set_latency
+                - script.is_running: mmwave_set_sensitivity
             then:
-              - script.wait: turn_on_led
-              - script.wait: turn_off_led
-              - script.wait: set_distance
-              - script.wait: set_latency
-              - script.wait: set_sensitivity
+              - script.wait: mmwave_turn_on_led
+              - script.wait: mmwave_turn_off_led
+              - script.wait: mmwave_set_distance
+              - script.wait: mmwave_set_latency
+              - script.wait: mmwave_set_sensitivity
               - delay: 75ms
-              - script.execute: set_distance
+              - script.execute: mmwave_set_distance
             else:
               - delay: 75ms
-              - script.execute: set_distance 
+              - script.execute: mmwave_set_distance 
       
   - platform: template
     name: "${mmwave_prefix}Latency${mmwave_suffix}"
-    id: latency # do not change
+    id: mmwave_latency # do not change
     entity_category: config
     min_value: 1
     max_value: 600
@@ -224,31 +224,31 @@ number:
     set_action:
       then:
         - globals.set:
-            id: latency_global
+            id: mmwave_latency_global
             value: !lambda 'return x;'
         - if:
             condition:
               or:
-                - script.is_running: turn_on_led
-                - script.is_running: turn_off_led
-                - script.is_running: set_distance
-                - script.is_running: set_latency
-                - script.is_running: set_sensitivity
+                - script.is_running: mmwave_turn_on_led
+                - script.is_running: mmwave_turn_off_led
+                - script.is_running: mmwave_set_distance
+                - script.is_running: mmwave_set_latency
+                - script.is_running: mmwave_set_sensitivity
             then:
-              - script.wait: turn_on_led
-              - script.wait: turn_off_led
-              - script.wait: set_distance
-              - script.wait: set_latency
-              - script.wait: set_sensitivity
+              - script.wait: mmwave_turn_on_led
+              - script.wait: mmwave_turn_off_led
+              - script.wait: mmwave_set_distance
+              - script.wait: mmwave_set_latency
+              - script.wait: mmwave_set_sensitivity
               - delay: 50ms
-              - script.execute: set_latency
+              - script.execute: mmwave_set_latency
             else:
               - delay: 50ms
-              - script.execute: set_latency
+              - script.execute: mmwave_set_latency
 
   - platform: template
     name: "${mmwave_prefix}Sensitivity${mmwave_suffix}"
-    id: sensitivity # do not change
+    id: mmwave_sensitivity # do not change
     entity_category: config
     min_value: 0
     max_value: 9
@@ -259,27 +259,27 @@ number:
     set_action:
       then:
         - globals.set:
-            id: sensitivity_global
+            id: mmwave_sensitivity_global
             value: !lambda 'return x;'
         - if:
             condition:
               or:
-                - script.is_running: turn_on_led
-                - script.is_running: turn_off_led
-                - script.is_running: set_distance
-                - script.is_running: set_latency
-                - script.is_running: set_sensitivity
+                - script.is_running: mmwave_turn_on_led
+                - script.is_running: mmwave_turn_off_led
+                - script.is_running: mmwave_set_distance
+                - script.is_running: mmwave_set_latency
+                - script.is_running: mmwave_set_sensitivity
             then:
-              - script.wait: turn_on_led
-              - script.wait: turn_off_led
-              - script.wait: set_distance
-              - script.wait: set_latency
-              - script.wait: set_sensitivity
+              - script.wait: mmwave_turn_on_led
+              - script.wait: mmwave_turn_off_led
+              - script.wait: mmwave_set_distance
+              - script.wait: mmwave_set_latency
+              - script.wait: mmwave_set_sensitivity
               - delay: 25ms
-              - script.execute: set_sensitivity
+              - script.execute: mmwave_set_sensitivity
             else:
               - delay: 25ms
-              - script.execute: set_sensitivity
+              - script.execute: mmwave_set_sensitivity
 
 button:
   - platform: restart
@@ -302,11 +302,11 @@ button:
       - switch.turn_on: mmwave_sensor
 
 globals:
-  - id: distance_global
+  - id: mmwave_distance_global
     type: float
-  - id: latency_global
+  - id: mmwave_latency_global
     type: float
-  - id: sensitivity_global
+  - id: mmwave_sensitivity_global
     type: int
 
 script:
@@ -324,7 +324,7 @@ script:
     then:
       - uart.write: "sensorStop"
 
-  - id: turn_on_led
+  - id: mmwave_turn_on_led
     then:
       - switch.turn_off: mmwave_sensor
       - delay: 1s
@@ -336,7 +336,7 @@ script:
       - switch.turn_on: mmwave_sensor
       - delay: 6s # the sum of mmwave_sensor delays
     
-  - id: turn_off_led
+  - id: mmwave_turn_off_led
     then:
       - switch.turn_off: mmwave_sensor
       - delay: 1s
@@ -348,7 +348,7 @@ script:
       - switch.turn_on: mmwave_sensor
       - delay: 6s # the sum of mmwave_sensor delays
 
-  - id: set_distance
+  - id: mmwave_set_distance
     mode: queued
     then:
       - switch.turn_off: mmwave_sensor
@@ -360,7 +360,7 @@ script:
       - switch.turn_on: mmwave_sensor
       - delay: 6s # the sum of mmwave_sensor delays
 
-  - id: set_latency
+  - id: mmwave_set_latency
     mode: queued
     then:
       - switch.turn_off: mmwave_sensor
@@ -372,7 +372,7 @@ script:
       - switch.turn_on: mmwave_sensor
       - delay: 6s # the sum of mmwave_sensor delays
 
-  - id: set_sensitivity
+  - id: mmwave_set_sensitivity
     mode: queued
     then:
       - switch.turn_off: mmwave_sensor

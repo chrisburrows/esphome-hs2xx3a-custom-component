@@ -8,23 +8,23 @@
 void publishTarget(int idx, float dist, float snr) {
   switch(idx) {
     case 1:
-      id(target_1_distance_m).publish_state(dist);
-      id(target_1_SNR).publish_state(snr);
+      id(mmwave_target_1_distance_m).publish_state(dist);
+      id(mmwave_target_1_SNR).publish_state(snr);
       break;
 
     case 2:
-      id(target_2_distance_m).publish_state(dist);
-      id(target_2_SNR).publish_state(snr);
+      id(mmwave_target_2_distance_m).publish_state(dist);
+      id(mmwave_target_2_SNR).publish_state(snr);
       break;
 
     case 3:
-      id(target_3_distance_m).publish_state(dist);
-      id(target_3_SNR).publish_state(snr);
+      id(mmwave_target_3_distance_m).publish_state(dist);
+      id(mmwave_target_3_SNR).publish_state(snr);
       break;
 
     case 4:
-      id(target_4_distance_m).publish_state(dist);
-      id(target_4_SNR).publish_state(snr);
+      id(mmwave_target_4_distance_m).publish_state(dist);
+      id(mmwave_target_4_SNR).publish_state(snr);
       break;
 
     case 5:
@@ -130,7 +130,7 @@ class leapmmw : public Component, public UARTDevice {
               ESP_LOGD("custom", "Did not find a value for getSensitivity");
             } else {
               // ESP_LOGD("custom", "The value of getSensitivity is: %f", parse_number<float>(getSensitivity).value());
-              PUBLISH_NUMBER(sensitivity, getSensitivity);
+              PUBLISH_NUMBER(mmwave_sensitivity, getSensitivity);
             }
           }
 
@@ -141,7 +141,7 @@ class leapmmw : public Component, public UARTDevice {
               ESP_LOGD("custom", "Did not find a value for getRange");
             } else {
               // ESP_LOGD("custom", "The value of getRange is: %f", parse_number<float>(getRange).value());
-              PUBLISH_NUMBER(distance, getRange);
+              PUBLISH_NUMBER(mmwave_distance, getRange);
             }
           }
 
@@ -152,7 +152,7 @@ class leapmmw : public Component, public UARTDevice {
               ESP_LOGD("custom", "Did not find a value for getLatency");
             } else {
               // ESP_LOGD("custom", "The value of getLatency is: %f", parse_number<float>(getLatency).value());
-              PUBLISH_NUMBER(latency, getLatency);
+              PUBLISH_NUMBER(mmwave_latency, getLatency);
             }
           }
 
@@ -165,7 +165,7 @@ class leapmmw : public Component, public UARTDevice {
               int led_state = parse_number<int>(getLedMode).value();
               // ESP_LOGD("custom", "The value of getLedMode is: %i", led_state);
               if (led_state == 0 || led_state == 1) {
-                PUBLISH_SWITCH(led, 1 - led_state);
+                PUBLISH_SWITCH(mmwave_led, 1 - led_state);
               }
             }
           }
