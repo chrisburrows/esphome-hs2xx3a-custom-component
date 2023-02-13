@@ -86,15 +86,15 @@ class leapmmw : public Component, public UARTDevice {
     static char buffer[max_line_length];
 
     while (available()) {
-      if (id(mmwave_sensor).state == 0 && id(num_targets).state > 0) {
-        id(num_targets).publish_state(0);
+      if (id(mmwave_sensor).state == 0 && id(mmwave_num_targets).state > 0) {
+        id(mmwave_num_targets).publish_state(0);
         clearTargets();
       }
       if(readline(read(), buffer, max_line_length) >= 4) {
         std::string line = buffer;
 
-        if (line.substr(0, 18) == "leapMMW:/>$JYBSS,0" && id(num_targets).state > 0) {
-          id(num_targets).publish_state(0);
+        if (line.substr(0, 18) == "leapMMW:/>$JYBSS,0" && id(mmwave_num_targets).state > 0) {
+          id(mmwave_num_targets).publish_state(0);
           clearTargets();
         }
         if (line.substr(0, 6) == "$JYRPO") {
@@ -107,7 +107,7 @@ class leapmmw : public Component, public UARTDevice {
                   v.back() += vline[i];
               }
           }
-          id(num_targets).publish_state(parse_number<float>(v[0]).value());
+          id(mmwave_num_targets).publish_state(parse_number<float>(v[0]).value());
           if (id(show_target_stats).state == 1) {
             publishTarget(stoi(v[1]), parse_number<float>(v[2]).value(), parse_number<float>(v[4]).value());
             // zero null targets
